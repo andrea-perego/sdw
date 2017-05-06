@@ -1859,19 +1859,22 @@ Connection: close
             <h4 class="subhead">Why</h4>
             <p>The geospatial, Linked Data, and Web communities use different <a>geometry</a> formats and tools, which reflect different requirements with respect to data complexity and manipulation.</p>
             <p>When deciding how a <a>geometry</a> should be described, it is therefore necessary to consider the intended uses and the related user communities. Which may imply providing alternative geometry descriptions.</p>
-            <p>This best practice helps with choosing the right format for describing <a>geometries</a>, based on aspects like intended use(s), performance, and tool support. It also helps when deciding on when using literals rather than structured objects for geometric representations is a good idea.</p>
+            <p>This best practice helps with choosing the right format for describing <a>geometries</a>, based on aspects like intended use(s), performance, and tool support. It also helps deciding on when using literals rather than structured objects for geometric representations is a good idea.</p>
             <div class="note">
+              <p>This best practice is strictly correlated to <a href="#multiplegeometries" class="sectionRef"></a>, <a href="#bp-crs-choice" class="sectionRef"></a>, and <a href="#bp-crs" class="sectionRef"></a>, to which we refer the reader for more information.</p>
+<!--
               <p>Since <a>coordinate reference system</a> and coordinate <a>axis order</a> are two of the factors determining how a <a>geometry</a> is described, this best practice is strictly correlated to <a href="#bp-crs-choice"></a> and <a href="#bp-crs"></a>, to which we refer the reader for more information.</p>
+-->              
             </div>
           </section>
           <section class="outcome">
             <h4 class="subhead">Intended Outcome</h4>
             <p>The format chosen to express geometry data should:</p>
             <ul>
-              <li>Support the <a>dimensionality</a> of the <a>geometry</a> (from points - 0D - to volumes - 3D) - not all geometry formats support all dimensions;</li>
-              <li>Be supported by the software tools used within data user community - the geospatial and Web communities use different tools, working with different geometry formats;</li>
-              <li>Keep geometry descriptions to a size that is convenient for the intended applications - Web applications are typically not using detailed <a>geometries</a>;</li>
+              <li>Support the <a>dimensionality</a> of the <a>geometry</a> (from points - 0D - to volumes - 3D) - not all geometry formats support all dimensions.</li>
               <li>Support the <a>coordinate reference system</a> you need.</li>
+              <li>Be supported by the software tools used within data user community - the geospatial and Web communities use different tools, working with different geometry formats.</li>
+              <li>Keep geometry descriptions to a size that is convenient for the intended applications - Web applications are typically not using detailed <a>geometries</a>.</li>
             </ul>
             <p>Ideally, to enable their widest re-use, <a>geometries</a> should be described having in mind the geospatial, Linked Data and Web communities. This may not be always feasible, but the objective should at least be to describe geometries (also) for Web consumption.</p>
           </section>
@@ -1891,10 +1894,10 @@ Connection: close
                   <li>The appropriate <a>geometry</a> <a>dimensionality</a> (0D - points, 1D - lines, 2D - surfaces, 3D - volumes). See <a href="#spatial-things-features-and-geometry" class="sectionRef"></a> for more information.</li>
                   <li>The appropriate <a>coordinate reference system</a>(s). See <a href="#CRS-background" class="sectionRef"></a> for more information.</li>
                   <li>The appropriate geometry encoding(s) / representation(s) - also considering the software tools that you anticipate your user community to employ. See <a href="#applicability-formatVbp" class="sectionRef"></a> for more information.</li>
-                  <li>The appropriate level of complexity.</li>
+                  <li>The appropriate level of complexity. See <a href="#multiplegeometries" class="sectionRef"></a> for more information.</li>
                 </ul>
               </li>
-              <li>Where multiple representations are required, consider offering as many as you can - balancing the benefit of ease of use against the cost of the additional storage or additional processing if converting on-the-fly. See [[DWBP]] <a href="https://www.w3.org/TR/dwbp/#Conneg">Best Practice 19: Use content negotiation for serving data available in multiple formats</a> for more information.
+              <li>Where multiple representations are required, consider offering as many as you can - balancing the benefit of ease of use against the cost of the additional storage or additional processing if converting on-the-fly. See [[DWBP]] <a href="https://www.w3.org/TR/dwbp/#Conneg" class"sectionRef">Best Practice 19: Use content negotiation for serving data available in multiple formats</a> for more information.
                 <div class="note">
                   <p>HTTP content negotiation only works for media-type, character set, encoding and language. Consequently, it is not possible to select one representation that conforms to a given "profile" (e.g. data model, complexity level, <a>CRS</a>) from several that all share the same media-type; e.g. asking for the GeoJSON [[RFC7946]] features with "simple" <a>geometries</a> (compacted polygons or just points) not the "complex" geometries; or asking for the representation that uses CRS84 not Amersfoort-RD.</p>
                 </div>
@@ -1924,7 +1927,7 @@ Connection: close
             <p>These <a>geometry</a> representations are either stored with the related data, or are maintained separately, and possibly denoted with HTTP URIs (see <a href="#ex-http-uris-for-geometries"></a>).</p>
             <p><a>RDF</a> representations of <a>geometries</a> can support most <a>geometry</a> types and <a>dimensions</a> (at least, up to 2 dimensions), with any level of complexity, in any <a>coordinate reference system</a>. On the other hand, existing <a>Semantic Web</a> tools, such as <a>triple stores</a>, are currently not efficient enough to perform spatial queries which are complex and/or on complex geometries. In the latter case, it is therefore preferable to maintain geometries separately, in software platforms designed for these specific tasks.</p>
             <p>It is nonetheless desirable to make available these <a>geometries</a> for Web consumption as said before for [[GML]]-encoded geometries - i.e., by publishing also simplified version of them, either in GeoJSON [[RFC7946]] or embedded in Web pages.</p>
-            <p>The following [[TURTLE]] snippet shows the [[GeoDCAT-AP]] representation of the dataset in <a href="#ex-schemaorg-dataset-and-place"></a>. Here the bounding box is provided in multiple literal encodings (<a>WKT</a>, [[GML]], GeoJSON), by using property <code>locn:geometry</code> [[LOCN]].</p>
+            <p>The following [[TURTLE]] snippet shows the [[GeoDCAT-AP]] representation of the dataset in <a href="#ex-schemaorg-dataset-and-place"></a>. Here the bounding box is provided in multiple literal encodings (<a>WKT</a>, [[GML]], GeoJSON [[RFC7946]]), by using property <code>locn:geometry</code> [[LOCN]].</p>
             <aside class="example" id="ex-geodcat-ap-bag-addresses" title="[GeoDCAT-AP] representation of dataset spatial coverage (bounding box) in multiple encodings">
               <pre>
 @prefix dcat: &lt;http://www.w3.org/ns/dcat#&gt; .
@@ -2112,8 +2115,8 @@ Connection: close
             <p>Check if:</p>
             <ol>
               <li><a>Geometries</a> are made available in possibly different formats and levels of complexity, considering their intended uses and their consumption on the Web.</li>
-              <li>The chosen <a>geometry</a> descriptions comply with <a href="#bp-crs-choice"></a> and <a href="#bp-crs"></a>.</li>
-              <li>The (possibly) alternative geometry descriptions can be accessible via standard mechanisms, as HTTP content negotiation.</li>
+              <li>The chosen <a>geometry</a> descriptions comply with <a href="#multiplegeometries" class="sectionRef"></a>, <a href="#bp-crs-choice" class="sectionRef"></a>, and <a href="#bp-crs" class="sectionRef"></a>.</li>
+              <li>The (possibly) alternative <a>geometry</a> descriptions can be accessible via standard mechanisms, as HTTP content negotiation.</li>
             </ol>
           </section>
           <section class="ucr">
