@@ -1915,9 +1915,9 @@ Connection: close
             <p>Currently, there are two reference <a>geometry</a> formats widely used in the geospatial and Web communities, respectively, [[GML]] and GeoJSON [[RFC7946]].</p>
             <p>[[GML]] provides the ability to express any type of <a>geometry</a>, in any <a>coordinate reference system</a>, and up to 3 <a>dimensions</a> (from points to volumes).</p>
             <p>On the other hand, GeoJSON [[RFC7946]] supports only one <a>coordinate reference system</a> (CRS84 - i.e., WGS84 longitude/latitude), and <a>geometries</a> up to 2 dimensions (points, lines, surfaces).</p>
-            <p>To facilitate the use of <a>geometry</a> data on the Web, it is therefore desirable that [[GML]]-encoded geometries are made available also in GeoJSON [[RFC7946]], by applying not only the required <a>coordinate reference system</a> transformation, but, if needed, by simplifying the original geometry (e.g., by transforming a 3D geometry in a 2D one).</p>
+            <p>To facilitate the use of <a>geometry</a> data on the Web, it is therefore desirable that [[GML]]-encoded geometries are made available also in GeoJSON [[RFC7946]], by applying not only the required <a>coordinate reference system</a> transformation, but, if needed, by simplifying the original geometry (e.g., by transforming a 3D geometry into a 2D one). See <a href="#multiplegeometries" class="sectionRef"></a> for more information.</p>
             <div class="note">
-              <p>Another approach to publishing <a>geometries</a> on the Web is to embed them directly in Web pages. This is, for instance, the approach used by [[SCHEMA-ORG]], which defines several terms to specify them (see <a href="#indexable-by-search-engines"></a> for more information).</p>
+              <p>Another approach to publishing <a>geometries</a> on the Web is to embed them directly in Web pages. This is, for instance, the approach used by [[SCHEMA-ORG]], which defines several terms to specify them (see <a href="#indexable-by-search-engines" class="sectionRef"></a> for more information).</p>
               <p>Typically, this is used just for 0D-2D <a>geometries</a> (points, lines, surfaces). Detailed and complex geometries cannot be published with this methodology, so also in this case only a very simplified representation of the original <a>geometry</a> can be published - e.g., the centroid and/or 2D bounding box.</p>
             </div>
             <p>Finally, <a>RDF</a>-based representations of <a>geometries</a> are used in the Linked Data community. This is achieved by using specific vocabularies, as [[W3C-BASIC-GEO]] (only for points) or [[GeoSPARQL]] (for points, lines, surfaces). For a high-level comparison of common spatial data vocabularies, see <a href="#applicability-formatVbp" class="sectionRef"></a>.</p>
@@ -2021,8 +2021,7 @@ Connection: close
 # Added
   dct:created "1635"^^xsd:gYear ;
 # Added
-  locn:address &lt;http://www.ldproxy.net/bag/inspireadressen/inspireadressen.3329155&gt; ;
-<!--  
+  locn:address &lt;http://www.ldproxy.net/bag/inspireadressen/inspireadressen.3329155&gt; ;<!--  
 # Added
   w3cgeo:lat  "52.37509"^^xsd:float ;
 # Added
@@ -2142,7 +2141,6 @@ Connection: close
             </ul>
           </section>
         </div>
-		
 		
 <!-- @andrea-perego -->		
 		
