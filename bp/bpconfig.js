@@ -32,6 +32,7 @@ var respecConfig = {
         { value: "Byron Cochrane" },
         { value: "Simon Cox" },
         { value: "François Daoust" },
+        { value: "Andreas Harth" },
         { value: "Bart van Leeuwen" },
         { value: "Josh Lieberman" },
         { value: "Chris Little" },
@@ -102,6 +103,12 @@ var respecConfig = {
         title:"Simple Feature Access - Part 1: Common Architecture",
         authors: ["John Herring"],
         date: "28 May 2011"
+      },
+      "GML-SF":{
+        href:"http://www.opengeospatial.org/standards/gml",
+        title:"Geography Markup Language (GML) simple features profile",
+		  authors: ["Linda van den Brink", "Clemens Portele", "Panagiotis (Peter) A. Vretanos"],
+        date: "5 April 2012"
       },
       "Veregin":{
         href:"http://www.geos.ed.ac.uk/~gisteac/gis_book_abridged/files/ch12.pdf",
