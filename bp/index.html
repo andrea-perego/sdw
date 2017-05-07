@@ -987,7 +987,7 @@ function init() {
           <tr>
             <td><code>w3cgeo</code></td>
             <td>http://www.w3.org/2003/01/geo/wgs84_pos#</td>
-            <td><a href="#bib-W3C-BASIC-GEO">Basic Geo (WGS84 lat/long) Vocabulary</a></td>
+            <td><a href="#bib-W3C-BASIC-GEO">Basic Geo (WGS 84 lat/long) Vocabulary</a></td>
           </tr>
         </tbody>
       </table>
@@ -1743,16 +1743,21 @@ Connection: close
               
               <h5>1. Web pages for people to read about spatial things</h5>
               <p>In <a href="#globally-unique-ids" class="sectionRef">Best Practice 1</a> we recommend use of HTTP URIs as a way of assigning identifiers to <a>spatial things</a>. The data publisher should offer the ability to look up ('dereference') such a URI to find out useful information about that <a>spatial thing</a> in human readable form (as well as machine readable formats - see the discussion below on data integration).  Each <a>spatial thing</a> therefore gets its own Web page - in addition it might be useful to have Web pages about groups of <a>spatial things</a>, but the 'page per thing' approach enables fine-grained linking of information.</p>
-              <p>To promote discovery of such Web pages in search engines, each page should contain a clear text description of what it is, ideally in a way that distinguishes it from pages about other similar <a>spatial things</a>. Including metadata using the [[SCHEMA-ORG]] vocabulary, embedded as [[MICRODATA]], [[HTML-RDFa] or as [[JSON-LD]] in the <em>&lt;head&gt;</em> section of the page can provide additional information to search engines to support more precise indexing.  See <a href="#indexable-by-search-engines" class="sectionRef">Best Practice 2: Making data indexable by search engines</a> for a more detailed discussion.</p>
+              <p>To promote discovery of such Web pages in search engines, each page should contain a clear text description of what it is, ideally in a way that distinguishes it from pages about other similar <a>spatial things</a>. Including metadata using the [[SCHEMA-ORG]] vocabulary, embedded as [[MICRODATA]], [[HTML-RDFa]] or as [[JSON-LD]] in the <em>&lt;head&gt;</em> section of the page can provide additional information to search engines to support more precise indexing.  See <a href="#indexable-by-search-engines" class="sectionRef">Best Practice 2: Making data indexable by search engines</a> for a more detailed discussion.</p>
               <p>It is also very useful in such Web pages to include <a>links</a> to descriptions of the <a>spatial thing</a> in other formats (typically machine-readable formats) as well as linking to related <a>spatial things</a>.</p>
+              <p>In most cases, a web page about a spatial thing should include information on its location.  This can be done by providing spatial coordinates (see <a href="#bp-crs-choice">Best Practice 7</a> for guidance on how to do this).</p>
+	              <p>A common way of specifying the location of a building is to use its postal address. Most spatial applications require an address to be turned into spatial coordinates, so that its location can be marked on a map, or compared with locations of other things, a process known as <a>geocoding</a>.  Although a publisher could leave this process of geocoding to the data user, ideally the publisher should take responsibility for this as they are in a better position to check the accuracy of the results.  Different ways of specifying addresses can sometimes lead to errors in the geocoding process.</p>
+
+	              <p>Other approaches can be taken to specifying location. <a href="https://what3words.com/">What3words</a> is an example of a service that assigns an alternative kind of address to a location - in this case a sequence of three common words associated with a 3m by 3m square on the ground.  It allows every location to be given such an address and what3words also provides a means to relate the address to <a>latitude</a> and <a>longitude</a> coordinates.  Like conventional addresses, converting to coordinates is necessary for many spatial data applications (e.g. to calculate the distance between points or whether a point is inside a region), but the process of conversion is more reliable and precise.</p>
               <aside class="example">
-                <p>TO DO: Web pages about spatial thing example...</p>
+                <p>Wikipedia includes web pages about many spatial things, for example <a href="https://en.wikipedia.org/wiki/Florence_Cathedral">Florence Cathedral</a>.  This page provides latitude and longitude coordinates for the cathedral, as well as linking to other pages about the city of Florence and the region of Tuscany.  It would be better if typical Wikipedia pages about spatial things were explicit about the coordinate reference system used. However, a link is also provided to the 'Geohack' service which provides detailed location information, including the CRS.</p>
               </aside>
               <h5>2. Web mapping or visualization applications</h5>
               <p>A common application of <a>spatial data</a> on the Web is delivering map data in a tiled form, suitable for display in zoomable 'slippy maps'.  The OGC's <a>Web Map Tile Service</a> [[WMTS]] is an established standard for doing this.  Other approaches in common use include <a href="https://github.com/mapbox/mbtiles-spec">MBTiles</a> or 'Tile layers' in <a href="https://developers.google.com/maps/">Google Maps APIs</a></p>
               <p>Another frequent requirement is to draw markers or polygons on top of a Web map. A typical approach is for the browser to display a base map, then separately retrieve data about the <a>spatial things</a> of interest, typically as GeoJSON [[RFC7946]], [[GML]] using the Simple Features profile [[GML-SF]] or [[KML]] files, then to combine the two using appropriate Javascript libraries.  For applications involving boundary polygons of geographical areas, a common consideration is how to make this process efficient at different zoom levels. A high level of detail is appropriate when zoomed in, but many areas may be visible when zoomed out, and delivering boundaries of all of those at full detail can lead to very large amounts of data and hence poor performance, so simplified lower resolution versions of polygons may be required.</p>
+<p>See this <a href="#table-formats-matrix">comparison of different spatial data formats</a> to help guide the choice of which approach is best suited to your purpose.</p>
               <aside class="example">
-                <p>TO DO: Mapping/visualization example...</p>
+                <p><a href="https://d3js.org/">d3.js</a> is a widely used Javascript library for creating visualisations in web pages. This <a href="https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c">tutorial by Mike Bostock</a> describes how to use D3 to work with geometrical data and display it in a web page.</p>
               </aside>
               <h5>3. Data integration - combining spatial data with other data</h5>
               <p>Many important applications of <a>spatial data</a> involve combining it with other kinds of data: for example, opening times of nearby supermarkets, or statistical information on the economy of a town.  Often the <a>spatial thing</a> is at the center of the data analysis process.</p>
@@ -1760,12 +1765,12 @@ Connection: close
               <p>To enable such questions to be answered using data from different sources, it is important to describe <a>spatial things</a> using shared identifiers and vocabularies.  This is described in [[DWBP]] <a href="https://www.w3.org/TR/dwbp/#identifiersWithinDatasets">Best Practice 10: Use persistent URIs as identifiers within datasets</a> and [[DWBP]] <a href="https://www.w3.org/TR/dwbp/#ReuseVocabularies">Best Practice 15: Reuse vocabularies, preferably standardized ones</a>.</p>
               <p>From a <a>spatial data</a> perspective, the question of identifiers is discussed in <a href="#globally-unique-ids" class="sectionRef">Best Practice 1</a>.  How to relate a <a>spatial thing</a> to its <a>geometry</a> is described in <a href="#describe-geometry" class="sectionRef">Best Practice 5: Provide geometries on the Web in a usable way</a>.</p>
               <p>A common approach to encoding data to enable data integration is <a>Linked Data</a> [[LD-BP]] and <a>RDF</a> [[RDF11-PRIMER]]. The spatial aspects of the data can either be included in the RDF data model, or the entity in question can link to an external Web resource containing the <a>geometry</a> in one of the standard spatial data formats. Although RDF is well-suited to important aspects of best practice, including use of URIs as identifiers and re-use of vocabularies, other data formats are also consistent with this approach. Most spatial data formats enable associating attributes of an entity alongside its geometry.</p>	
-              <p>The publisher's choice of data model to represent the data will depend on what data is available and which audiences and purposes it seems most important to support. However, a reasonable general rule is that it is always useful to provide a label and a type for each entity in the data collection. (See [[DWBP]] <a href="https://www.w3.org/TR/dwbp/#ChooseRightFormalizationLevel">Best Practice 16: Choose the right formalization level</a>)</p>  
-              <p>A common way of specifying the location of a building is to use its postal address. Most spatial applications require an address to be turned into spatial coordinates, so that its location can be marked on a map, or compared with locations of other things, a process known as <a>geocoding</a>.  Although a publisher could leave this process of geocoding to the data user, ideally the publisher should take responsibility for this as they are in a better position to check the accuracy of the results.  Different ways of specifying addresses can sometimes lead to errors in the geocoding process.</p>
-              <p>Common vocabularies for describing the address of a <a>spatial thing</a> include: [[SCHEMA-ORG]], [[VCARD-RDF]] and [[LOCN]].</p>
-              <p><a href="https://what3words.com/">what3words</a> is an example of a service that assigns an alternative kind of address to a location - in this case a sequence of three common words associated with a 3m by 3m square on the ground.  It allows every location to be given such an address and what3words also provides a means to relate the address to <a>latitude</a> and <a>longitude</a> coordinates.  Like conventional addresses, converting to coordinates is necessary for many spatial data applications (e.g. to calculate the distance between points or whether a point is inside a region), but the process of conversion is more reliable and precise.</p>
+              <p>The publisher's choice of data model to represent the data will depend on what data is available and which audiences and purposes it seems most important to support. However, a reasonable general rule is that it is always useful to provide a label and a type for each entity in the data collection. (See [[DWBP]] <a href="https://www.w3.org/TR/dwbp/#ChooseRightFormalizationLevel">Best Practice 16: Choose the right formalization level</a>)</p> 
+	              <p>Common vocabularies for describing the address or location of a <a>spatial thing</a> include: [[SCHEMA-ORG]], [[VCARD-RDF]] and [[LOCN]]. See this <a href="#table-vocabs-matrix">comparison of different vocabularies for describing spatial things</a> to help decide which is best for your application.</p> 
+	              <p>Publishing explicit relationships between the spatial thing of interest and other related spatial things helps support data integration applications: for example providing hierarchical relationships between different kinds of administrative area.</p>
+
               <aside class="example">
-                <p>TO DO. data integration example. <a href="http://statistics.gov.scot">Scottish Government Statistics</a></p>
+                <p>The Scottish Government makes a lot of statistical data available via their website<a href="http://statistics.gov.scot">Statistics.gov.scot</a>. Every statistical data point is referred to a geographical area, identified by an HTTP URI, making it easy to compare different datasets about an area of interest.  See for example this page about the <a href="http://statistics.gov.scot/id/statistical-geography/S12000036">City of Edinburgh Council Area</a>.</p>
               </aside>
               <h5>4. Spatial analytics - discover meaningful patterns in spatial data</h5>
 				  <p>Spatial analytics (or spatial analysis) is about deriving new insights by applying formal techniques to study <a>spatial things</a> using their topological or geometric properties. Combining <a>spatial data</a> with other data (see item 3 above) is a typical preparatory step before analysing the one or more datasets using <a>spatial operators</a>, statistical algorithms, etc.</p>
@@ -1777,14 +1782,23 @@ Connection: close
               <h4 class="subhead">Balancing quality and cost</h4>
               <p>The four main classes of application above have a wide range of requirements.  To support such a wide range may require a lot of effort and cost on behalf of a data publisher. There are many aspects to the 'quality' of a <a>spatial data</a> publishing approach, but in general terms it relates to how well the data and approach to data delivery meet the needs of the target audience.  By choosing to concentrate on only some kinds of application the publisher can keep cost down.  Other factors to consider include performance (speed with which data is delivered), timeliness of updates - which can be a significant consideration if the underlying data changes frequently, software complexity or maintenance. </p>
               <p>In many cases a mixture of technologies can be used together to find a good compromise of quality or performance and cost. The strengths of various approaches can be applied to the part of the publishing 'spectrum' that suits them best. For example, if using a <a>Linked Data</a> approach, one option is to keep all data in a <a>triple store</a>; but hybrid approaches are also possible, for example where geometrical information is stored and served from flat files, or where non-geometrical data and metadata is stored in a triple store and used to generate Web pages and machine readable descriptions of <a>spatial things</a>, while geometrical data is indexed by software such as Lucene Spatial, PostGIS or ElasticSearch. Use of shared Web-accessible identifiers for <a>spatial things</a> can help support the interconnections between a range of diverse information systems. </p>
+<p>[[EO-QB]] describes a 'spectrum of linkiness' for coverage data. At one end of the spectrum, you can assign each individual data point or pixel within a coverage (such as a satellite image) an individual identifier and web page. At the other, you can link just to an entire dataset and provide metadata for that.  An intermediate approach involves dividing the data into tiles, each of which can have its own identifier and metadata. The balance of quality and cost in this example corresponds to the size of tiles that can be individually referenced, described and retrieved.</p>
             </section>
             <section class="test">
               <h4 class="subhead">How to Test</h4>
-              <p>TO DO...</p>
+              <p>Is spatial data clearly encoded, so that it can be understood and re-used reliably?</p>
+              <p>Consider the main target audience or audiences of a web page or service.  Is spatial information provided in a way appropriate for that audience?</p>
             </section>
             <section class="ucr">
               <h4 class="subhead">Evidence</h4>
-              <p><span>Relevant requirements</span>: TO DO</p>
+              <p><span>Relevant requirements</span>: 
+	             <a href="https://www.w3.org/TR/sdw-ucr/#DeterminableCRS">R-DeterminableCRS</a>, 
+	             <a href="https://www.w3.org/TR/sdw-ucr/#Discoverability">R-Discoverability</a>,
+	             <a href="https://www.w3.org/TR/sdw-ucr/#GeoreferencedData">R-GeoreferencedData</a>,
+	             <a href="https://www.w3.org/TR/sdw-ucr/#Linkability">R-Linkability</a>,
+	             <a href="https://www.w3.org/TR/sdw-ucr/#MachineToMachine">R-MachineToMachine</a>,
+	             <a href="https://www.w3.org/TR/sdw-ucr/#SpatialRelationships">R-SpatialRelationships</a>
+	          </p>
             </section>
             <section class="benefits">
               <h4 class="subhead">Benefits</h4>
@@ -1867,7 +1881,7 @@ Connection: close
             </div>
             <p>Currently, there are two reference <a>geometry</a> formats widely used in the geospatial and Web communities, respectively, [[GML]] and GeoJSON [[RFC7946]].</p>
             <p>[[GML]] provides the ability to express any type of <a>geometry</a>, in any <a>coordinate reference system</a>, and up to 3 <a>dimensions</a> (from points to solids).</p>
-            <p>On the other hand, GeoJSON [[RFC7946]] supports only one <a>coordinate reference system</a> (CRS84 - i.e., WGS84 longitude/latitude), and <a>geometries</a> up to 2 dimensions (points, lines, surfaces).</p>
+            <p>On the other hand, GeoJSON [[RFC7946]] supports only one <a>coordinate reference system</a> (CRS84 - i.e., WGS 84 longitude/latitude), and <a>geometries</a> up to 2 dimensions (points, lines, surfaces).</p>
             <p>To facilitate the use of <a>geometry</a> data on the Web, it is therefore desirable that complex [[GML]]-encoded geometries are made available also in GeoJSON [[RFC7946]], by applying not only the required <a>coordinate reference system</a> transformation, but, if needed, by simplifying the original geometry (e.g., by transforming a 3D geometry into a 2D one). In addition, a simplified GML representation conforming to the GML Simple Feature profile [[GML-SF]] using the same transformations may be published. (On this topic, see <a href="#multiplegeometries" class="sectionRef"></a>).</p>
             <div class="note">
               <p>Another approach to publishing <a>geometries</a> on the Web is to embed them directly in Web pages. This is, for instance, the approach used by [[SCHEMA-ORG]], which defines several terms to specify them (see <a href="#indexable-by-search-engines" class="sectionRef"></a> for more information).</p>
@@ -1910,7 +1924,7 @@ Connection: close
   ] .
 </pre>
             </aside>
-            <p>In the above example, the <a>coordinate reference system</a> used for the bounding box is CRS84 (equivalent to WGS84, but with coordinate axis-order longitude/latitude), which is explicitly specified in the [[GML]] encoding via attribute <code>@srsName</code>, and by using the relevant HTTP URI from the <a href="http://www.opengis.net/def/crs/EPSG/0">OGC CRS registry</a>. The <a>coordinate reference system</a> is not specified for the <a>WKT</a> encoding, since CRS84 is the default <a>coordinate reference system</a> for <a>WKT</a> in [[GeoSPARQL]], and therefore it can be omitted. The <a>coordinate reference system</a> is also not specified in the GeoJSON [[RFC7946]] encoding, since CRS84 is the only supported <a>coordinate reference system</a> in GeoJSON [[RFC7946]].</p>
+            <p>In the above example, the <a>coordinate reference system</a> used for the bounding box is CRS84 (equivalent to WGS 84, but with coordinate axis-order longitude/latitude), which is explicitly specified in the [[GML]] encoding via attribute <code>@srsName</code>, and by using the relevant HTTP URI from the <a href="http://www.opengis.net/def/crs/EPSG/0">OGC CRS registry</a>. The <a>coordinate reference system</a> is not specified for the <a>WKT</a> encoding, since CRS84 is the default <a>coordinate reference system</a> for <a>WKT</a> in [[GeoSPARQL]], and therefore it can be omitted. The <a>coordinate reference system</a> is also not specified in the GeoJSON [[RFC7946]] encoding, since CRS84 is the only supported <a>coordinate reference system</a> in GeoJSON [[RFC7946]].</p>
             <p>Always with reference to <a href="#ex-schemaorg-dataset-and-place" class="exampleRef"></a>, the following snippet shows the [[GML]] and the <a>RDF</a> [[RDF11-PRIMER]] representations of the entry in the BAG Dutch register concerning the building where Anne Frank's house is located. For the corresponding GeoJSON [[RFC7946]] representation, see the relevant <a href="#ex-crs-geojson">example</a> in <a href="#bp-crs"></a>.</p>
             <aside class="example" id="ex-anne-frank-building-gml" title="[GML] description of a building, with detailed geometry">
               <p>The [[GML]] representation of Anne Frank's house building (taken from the <a href="http://geodata.nationaalgeoregister.nl/bag/wfs?VERSION=2.0.0&amp;SERVICE=WFS&amp;REQUEST=GetFeature&amp;typeName=pand&amp;cql_filter=bag:identificatie=363100012169587">BAG WFS endpoint</a>):</p>
@@ -2033,7 +2047,7 @@ Connection: close
             </ul>
 -->            
             <p>The different <a>WKT</a> encodings in the example show alternative ways of specifying the <a>coordinate reference system</a> used.</p>
-            <p>The two instances of property <code>geosparql:asWKT</code> follow the syntax recommended in [[GeoSPARQL]], where the specification of the <a>coordinate reference system</a> is required only if different from CRS84. By contrast, property <code>pdok:asWKT-RD</code> implies the use of a specific <a>coordinate reference system</a>, namely, <a href="http://epsg-registry.org/?display=entity&urn=urn:ogc:def:crs:EPSG::28992">EPSG:28992</a> ("Amersfoort / RD New"). The coordinate axis-order used is determined here by the <a>coordinate reference system</a>, and in both cases, it is longitude / latitude (more precisely, east/north for EPSG:28992).<!-- By contrast, the coordinates for the bounding box and centroid use WGS84, with coordinate axis-order latitude / longitude.--></p>
+            <p>The two instances of property <code>geosparql:asWKT</code> follow the syntax recommended in [[GeoSPARQL]], where the specification of the <a>coordinate reference system</a> is required only if different from CRS84. By contrast, property <code>pdok:asWKT-RD</code> implies the use of a specific <a>coordinate reference system</a>, namely, <a href="http://epsg-registry.org/?display=entity&urn=urn:ogc:def:crs:EPSG::28992">EPSG:28992</a> ("Amersfoort / RD New"). The coordinate axis-order used is determined here by the <a>coordinate reference system</a>, and in both cases, it is longitude / latitude (more precisely, east/north for EPSG:28992).<!-- By contrast, the coordinates for the bounding box and centroid use WGS 84, with coordinate axis-order latitude / longitude.--></p>
             <p><a href="#ex-anne-frank-building-rdf"></a> shows also how <a>geometries</a> for <a>spatial things</a> can be published as separate Web resources. This approach can be particularly suitable for giving access to huge geometries, consisting of hundreds of vertices (as the detailed <a>geometry</a> of the boundaries of a geographical region), without attaching them to the relevant <a>spatial things</a>. Moreover, this allows the same geometry to be linked from (i.e., re-used by) different spatial things. Finally, it is possible to use mechanisms (including HTTP content negotiation) to provide access to different representations / encodings of the geometry ([[GML]], <a>WKT</a>, GeoJSON [[RFC7946]], etc.), thus addressing different use cases. (On this topic, see also <a href="#entity-level-links"></a>).</p>
             <aside class="example" id="ex-http-uris-for-geometries" title="HTTP URIs for geometries">
               <p>As shown in <a href="#ex-amsterdam-station-uri" class="exampleRef"></a>, the following URI:</p>
@@ -2138,7 +2152,7 @@ Connection: close
   <p>Another approach, focused on efficient client-side processing, is <a href="https://github.com/mapbox/geojson-vt">GeoJSON-VT</a>, a library which enables a client to create on the fly vector tiles from GeoJSON [[RFC7946]] data.</p>
 <p>Finally, <a>Geohash</a> provides a compact way of encoding 0-dimensional <a>geometries</a> (points), which, at the same time, can be used for spatial indexing.</p>
 <aside class="example" id="ex-anne-frank-address-geohash">
-<p>The point coordinates of the address of Anne Frank's House (see <a href="#ex-schemaorg-dataset-and-place"></a>) can be encoded with <a>Geohash</a> as <a href="http://geohash.org/u173zns7thy"><code>u173zns7thy</code></a> (corresponding to the following WGS84 lat/long coordinates: <code>52.37520</code> <code>4.88399</code>).</p>
+<p>The point coordinates of the address of Anne Frank's House (see <a href="#ex-schemaorg-dataset-and-place"></a>) can be encoded with <a>Geohash</a> as <a href="http://geohash.org/u173zns7thy"><code>u173zns7thy</code></a> (corresponding to the following WGS 84 lat/long coordinates: <code>52.37520</code> <code>4.88399</code>).</p>
 </aside>
 </li>
 <li>
@@ -2387,12 +2401,12 @@ ex:ExampleDataset
     .
                 </pre>
                 <p>The labels (or terms) <code>w3cgeo:lat</code> and <code>w3cgeo:long</code> are provided by the [[W3C-BASIC-GEO]] vocabulary which states that it is:</p>
-                <p style="margin-left: 40px"><em>A vocabulary for representing <a>latitude</a>, <a>longitude</a> and altitude information in the WGS84 geodetic reference <a>datum</a>.</em></p>
+                <p style="margin-left: 40px"><em>A vocabulary for representing <a>latitude</a>, <a>longitude</a> and altitude information in the WGS 84 geodetic reference <a>datum</a>.</em></p>
                 <p>The terms themselves (plus <code>w3cgeo:alt</code>) are defined with all the necessary information as follows:</p>
                 <ul>
-                  <li><em><strong>lat:</strong> The WGS84 latitude of a <a>Spatial Thing</a> (decimal degrees).</em></li>
-                  <li><em><strong>long:</strong> The WGS84 longitude of a Spatial Thing (decimal degrees).</em></li>
-                  <li><em><strong>alt:</strong> The WGS84 altitude of a Spatial Thing (decimal meters above the local reference <a>ellipsoid</a>).</em></li>
+                  <li><em><strong>lat:</strong> The WGS 84 latitude of a <a>Spatial Thing</a> (decimal degrees).</em></li>
+                  <li><em><strong>long:</strong> The WGS 84 longitude of a Spatial Thing (decimal degrees).</em></li>
+                  <li><em><strong>alt:</strong> The WGS 84 altitude of a Spatial Thing (decimal meters above the local reference <a>ellipsoid</a>).</em></li>
                 </ul>
 
                 <pre class="example" id="ex-crs-sepatate-axes-lables-schema-geocoordinate" title="Coordinate position provided using [JSON-LD] and [SCHEMA-ORG]">
@@ -2460,7 +2474,7 @@ GID,On Street,Long,Lat,Species,Trim Cycle,Diameter at Breast Ht,Inventory Date,C
     }, {
       "name": "Long",
       "titles": "Longitude",
-      "dc:description": "The WGS84 longitude of the tree (decimal degrees).",
+      "dc:description": "The WGS 84 longitude of the tree (decimal degrees).",
       "propertyUrl": "http://www.w3.org/2003/01/geo/wgs84_pos#long"
       "datatype": {
         "base": "number",
@@ -2471,7 +2485,7 @@ GID,On Street,Long,Lat,Species,Trim Cycle,Diameter at Breast Ht,Inventory Date,C
       "name": "Lat",
       "titles": "Latitude",
       "propertyUrl": "http://www.w3.org/2003/01/geo/wgs84_pos#lat"
-      "dc:description": "The WGS84 latitude of the tree (decimal degrees).",
+      "dc:description": "The WGS 84 latitude of the tree (decimal degrees).",
       "datatype": {
         "base": "number",
         "minimum": "-90",
@@ -3504,7 +3518,7 @@ Content-type: application/geo+json
                   assigns URIs to all resources based on a pattern; supports filtering 
                   based on a property; makes each resource available in HTML, <a>XML</a> [[XML11]], [[JSON-LD]], 
                   [[GML]], GeoJSON [[RFC7946]]; and generates <a>links</a> to data in other datasets managed in triple 
-                  stores using <a>SPARQL</a> [SPARQL11-OVERVIEW] queries. The API is documented and published using 
+                  stores using <a>SPARQL</a> [[SPARQL11-OVERVIEW]] queries. The API is documented and published using 
                   Swagger.</p>
               </aside> 
               <aside class="example">
@@ -3772,7 +3786,7 @@ another:Dataset a dcat:Dataset ;
             <p class="note">It is important to understand the difference between precision and
               accuracy. Seven decimal places of a <a>latitude</a> degree corresponds to about one
               centimeter. Whatever the precision of the specified coordinates, the accuracy of
-              positioning on the actual earth's surface using WGS84 will only approach about a meter
+              positioning on the actual earth's surface using WGS 84 will only approach about a meter
               horizontally and may have apparent errors of up to 100 meters vertically, because of
               assumptions about reference systems, tectonic plate movements and which definition of
               the earth's 'surface' is used.</p>
@@ -3883,10 +3897,10 @@ another:Dataset a dcat:Dataset ;
         <h3>Requesting different representations of geometries</h3>
         <p>There are several aspects to representing <a>geometries</a> on the Web. First, there is the question of different serialization formats to choose from. The different formats are described in <a href="#describe-geometry" class="sectionRef"></a>, but the Best Practice does not make a definitive choice as to which format is best. Although having only one format for geometries on the Web would reduce complexity, the currently available formats reflect different requirements with respect to data complexity and manipulation.  </p>
         <p>A second, related aspect is whether to publish <a>geometries</a> on the Web in self contained files such as [[GML]] or GeoJSON [[RFC7946]], or rather to embed geometries as structured data markup in HTML, or in an <a>RDF</a> [[RDF11-PRIMER]] based way i.e. as <a>Linked Data</a>. Choosing between these approaches - or not choosing but rather offering a combination of these - depends largely on the intended audience.</p>
-	      
-        <p>Another issue is about the fact that different use cases may require geometries at different levels of accuracy, precision, and size. <a href="#multiplegeometries" class="sectionRef"></a> outlines some of the approaches to address this requirement, considering general application scenarios and providing guidance on the criteria to be taken into account for choosing the appropriate technique (e.g., compress geometry data, use compact formats, apply geometry generalization mechanisms). The overall recommendation is to make available multiple representations of geometry data, and to give data consumers the ability to identify those most fit for purpose. A variety of mechanisms can be used to achieve this, as publishing different geometry representations at different URIs, and accompanying them with a human- and/or machine-readable description of their characteristics (e.g., format, spatial resolution, scale, level of generalization). However, the lack of common practices in this area makes it difficult to provide consistent guidelines on how to publish and access different geometry representations.</p>
-	      
-        <p>Third, there is a question of how to make <a>geometries</a> available in different <a>CRS</a>s. <a href="#bp-crs-choice" class="sectionRef"></a> describes why this is a good idea as well as how to decide which CRSs to provide. <a href="#bp-crs" class="sectionRef"></a> explains how the CRS of geometries should be made known. It follows that users should be able to find out which CRSs are available and access geometries in the CRS of their choice. In an OGC <a>WFS</a> [[WFS]] request, users can specify the CRS they wish to use by specifying the srsName parameter. In [[GeoSPARQL]] the getSRID function returns the spatial reference system of a <a>geometry</a>, thus making it possible to request a specific CRS at a (Geo)SPARQL endpoint. However, these options require the user to be proficient in either Geospatial Web services or <a>Linked Data</a>. A best practice for requesting and returning geometries in a specific requested CRS has not yet emerged. Many options can be found in current practice, including  creating CRS-specific geometry properties (for example, the Dutch Land Registry does this), and supporting an option for requesting a specific CRS in a convenience API; but one best practice cannot yet be identified. </p>
+        
+        <p>Another issue is about the fact that different use cases may require geometries at different levels of accuracy, precision, and size. <a href="#multiplegeometries" class="sectionRef"></a> outlines some of the approaches to address this requirement, considering general application scenarios and providing guidance on the criteria to be taken into account for choosing the appropriate technique (e.g., compress geometry data, use compact formats, apply geometry generalization mechanisms). The overall recommendation is to make available multiple representations of geometry data, and to give data consumers the ability to identify those most fit for purpose. A variety of mechanisms can be used to achieve this, as publishing different geometry representations at different URIs, and accompanying them with a human- and/or machine-readable description of their characteristics (e.g., format, spatial resolution, scale, level of generalization). However, the lack of common practices in this area makes it difficult to provide consistent guidelines on how to publish and access different geometry representations.</p>        
+        
+        <p>Finally, there is a question of how to make <a>geometries</a> available in different <a>CRS</a>s. <a href="#bp-crs-choice" class="sectionRef"></a> describes why this is a good idea as well as how to decide which CRSs to provide. <a href="#bp-crs" class="sectionRef"></a> explains how the CRS of geometries should be made known. It follows that users should be able to find out which CRSs are available and access geometries in the CRS of their choice. In an OGC <a>WFS</a> [[WFS]] request, users can specify the CRS they wish to use by specifying the srsName parameter. In [[GeoSPARQL]] the getSRID function returns the spatial reference system of a <a>geometry</a>, thus making it possible to request a specific CRS at a (Geo)SPARQL endpoint. However, these options require the user to be proficient in either Geospatial Web services or <a>Linked Data</a>. A best practice for requesting and returning geometries in a specific requested CRS has not yet emerged. Many options can be found in current practice, including  creating CRS-specific geometry properties (for example, the Dutch Land Registry does this), and supporting an option for requesting a specific CRS in a convenience API; but one best practice cannot yet be identified. </p>
         <p>An option we considered was the use of content negotiation i.e. negotiate <a>CRS</a> as part of the content format for the geometry. A <a href="https://github.com/w3c/sdw/issues/757">concrete proposal</a> for this suggests the following:</p>
         <ul>
           <li>Servers can tell clients which CRS is used in the response using a new Content-Crs response header.</li>
@@ -4065,8 +4079,8 @@ another:Dataset a dcat:Dataset ;
 <tr>
 <th>Based on</th>
 <td><a>WKT</a></td>
-<td>XML</td>
-<td>XML</td>
+<td><a>XML</a></td>
+<td><a>XML</a></td>
 <td><a>JSON</a></td>
 <td>HTML</td>
 </tr>
@@ -4199,20 +4213,20 @@ another:Dataset a dcat:Dataset ;
 <!--
 <tr>
 <th>Default CRS</th>
-<td>Depends on the flavor - e.g., [[GeoSPARQL]]'s WKT defaults to WGS84 long/lat (CRS84)</td>
+<td>Depends on the flavor - e.g., [[GeoSPARQL]]'s WKT defaults to WGS 84 long/lat (CRS84)</td>
 <td>Yes</td>
 <td>No</td>
-<td>WGS84 long/lat (CRS84)</td>
+<td>WGS 84 long/lat (CRS84)</td>
 <td>Depends on the vocabulary used</td>
 </tr>
 -->
 <tr>
 <th><a>CRS</a> support</th>
-<td>Depends on the flavor - e.g., <a href="http://www.postgis.net/docs/ST_AsEWKT.html">EWKT</a> and [[GeoSPARQL]]'s WKT support arbitrary CRSs, and the latter defaults to WGS84 long/lat (CRS84)</td>
+<td>Depends on the flavor - e.g., <a href="http://www.postgis.net/docs/ST_AsEWKT.html">EWKT</a> and [[GeoSPARQL]]'s WKT support arbitrary CRSs, and the latter defaults to WGS 84 long/lat (CRS84)</td>
 <td>Any, and it can be explicitly specified (via attribute <code>@srsName</code>)</td>
-<td>WGS84 long/lat (CRS84) only</td>
-<td>WGS84 long/lat (CRS84) only</td>
-<td>Depends on the vocabulary used - e.g., [[SCHEMA-ORG]] supports WGS84 only</td>
+<td>WGS 84 long/lat (CRS84) only</td>
+<td>WGS 84 long/lat (CRS84) only</td>
+<td>Depends on the vocabulary used - e.g., [[SCHEMA-ORG]] supports WGS 84 only</td>
 </tr>
 <!--
 <tr>
@@ -4285,7 +4299,7 @@ another:Dataset a dcat:Dataset ;
 <tr>
   <th>Description</th>
   <td>includes terms for describing location and temporal information, as classes <a href="http://purl.org/dc/terms/Location"><code>dct:Location</code></a>, <a href="http://purl.org/dc/terms/PeriodOfTime"><code>dct:PeriodOfTime</code></a>, and properties <a href="http://purl.org/dc/terms/spatial"><code>dct:spatial</code></a>, <a href="http://purl.org/dc/terms/temporal"><code>dct:temporal</code></a>, and <a href="http://purl.org/dc/terms/coverage"><code>dct:coverage</code></a>.</td>
-  <td>A widely used vocabulary, although not an official standard, for specifying point coordinates in the WGS84 <a>datum</a>.</td>
+  <td>A widely used vocabulary, although not an official standard, for specifying point coordinates in the WGS 84 <a>datum</a>.</td>
   <td>Includes terms for describing <a href="https://www.w3.org/TR/vcard-rdf/#Delivery_Addressing_Properties">postal addresses</a> and <a href="https://www.w3.org/TR/vcard-rdf/#Geographical_Properties">0D geometries</a> (points).</td>
   <td>
     <p>Vocabulary defined by the W3C Geospatial Incubator Group (GeoXG) for the representation of geospatial properties of Web resources.</p>
@@ -4361,10 +4375,10 @@ another:Dataset a dcat:Dataset ;
 <tr>
 <th><a>CRS</a> support</th>
 <td>-</td>
-<td>WGS84 only</td>
-<td>WGS84 only</td>
-<td>WGS84 only</td>
-<td>WGS84 only</td>
+<td>WGS 84 only</td>
+<td>WGS 84 only</td>
+<td>WGS 84 only</td>
+<td>WGS 84 only</td>
 <td>Any</td>
 <td>Any (depends on how the geometry is represented)</td>
 </tr>
@@ -4659,13 +4673,13 @@ another:Dataset a dcat:Dataset ;
           <td> any </td>
           <td> n/a </td>
           <td> many </td>
-          <td> WGS84 latitude, longitude </td>
-          <td> WGS84 longitude, latitude with optional elevation </td>
-          <td> WGS84 longitude, latitude with optional elevation </td>
+          <td> WGS 84 latitude, longitude </td>
+          <td> WGS 84 longitude, latitude with optional elevation </td>
+          <td> WGS 84 longitude, latitude with optional elevation </td>
           <td> many </td>
           <td> many </td>
           <td> many </td>
-          <td> WGS84 spherical mercator projection </td>
+          <td> WGS 84 spherical mercator projection </td>
         </tr>
         <tr>
           <td> Support for non-linear interpolations in curves </td>
@@ -4851,7 +4865,7 @@ another:Dataset a dcat:Dataset ;
       <p><dfn data-lt="Geographic information system|GIS">Geographic information system (GIS)</dfn>: An information system dealing with information concerning phenomena associated with locations relative to the Earth. (Source: <a href="http://registry.it.csiro.au/sandbox/iso-tc211/terms/207">ISO definition</a> [[ISO-19101]]).</p>
       <p><dfn>Geohash</dfn>: A specific <a>geocoding</a> system with a hierarchical spatial data structure which subdivides space into nested regions. Geohashes and some other geocoding systems offer properties like arbitrary precision and the possibility of repeatedly truncating characters from the end of the code to reduce its size and precision. As a consequence of the gradual precision degradation, nearby places will often (but not always) present similar prefixes. The longer a shared prefix is, the closer the two places are. Coordinate and address systems generally do not have this property. (Source: <a href="https://en.wikipedia.org/w/index.php?title=Geohash&oldid=773644736">wikipedia</a>). </p>
       <p><dfn>Geoid</dfn>: An equipotential surface where the gravitational field of the Earth has the same value at all locations. This surface is perpendicular to a plumb line at all points on the Earth's surface and is roughly equivalent to the mean sea level excluding the effects of winds and permanent currents such as the Gulf Stream.</p>
-      <p><dfn data-lt="geometry|geometries">Geometry</dfn>: An ordered set of <var>n</var>-dimensional points; can be used to model the spatial <a>extent</a> or shape of a <a>spatial thing</a>.</p>
+      <p><dfn data-lt="geometry|geometries">Geometry</dfn>: An ordered set of <var>n</var>-<a>dimensional</a> points in a given <a>coordinate reference system</a>; can be used to model the spatial <a>extent</a> or shape of a <a>spatial thing</a>.</p>
       <p><dfn data-lt="IoT|Internet of Things">Internet of Things (IoT)</dfn>: The network of physical objects or "things" embedded with electronics, software, sensors, and network connectivity, which enables these objects to be controlled remotely and to collect and exchange data.</p>
       <p><dfn data-lt="JavaScript Object Notation|JSON">JavaScript Object Notation (JSON)</dfn>: A lightweight, text-based, language-independent data interchange format defined in [[RFC7159]]. It was derived from the ECMAScript Programming Language Standard. JSON defines a small set of formatting rules for the portable representation of structured data.</p>
       <p><dfn data-lt="latitude|lat|latitudes">Latitude</dfn>: The angular distance north or south of the equator. Often abbreviated to <em>Lat</em>.</p>
